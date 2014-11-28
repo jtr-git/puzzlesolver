@@ -9,10 +9,10 @@ class MyClock : public Puzzle<int>
 {
 	public:
 		MyClock(int initial, int goal);
-		virtual bool isGoal(int);
-		virtual vector<int> next(int);
+		virtual bool isGoal(int) const;
+		virtual vector<int> next(int) const;
 		virtual int getInitial() const;
-		virtual string parseConfig(int);
+		virtual string parseConfig(int) const;
 		//friend ostream& operator<<(ostream&, const int&);
 };
 

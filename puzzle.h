@@ -15,10 +15,10 @@ class Puzzle
 		const Config goal;
 
 		Puzzle(Config initial, Config goal) : initial(initial), goal(goal) {}
-		virtual bool isGoal(Config) = 0;
-		virtual vector<Config> next(Config) = 0;
+		virtual bool isGoal(Config) const = 0;
+		virtual vector<Config> next(Config) const = 0;
 		virtual Config getInitial() const = 0;
-		virtual string parseConfig(Config) = 0;
+		virtual string parseConfig(Config) const= 0;
 };
 
 #endif
