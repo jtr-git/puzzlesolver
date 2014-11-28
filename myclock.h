@@ -11,7 +11,7 @@ class MyClock : public Puzzle<int>
 		MyClock(int initial, int goal);
 		virtual bool isGoal(int);
 		virtual vector<int> next(int);
-		virtual int getInitial();
+		virtual int getInitial() const;
 		virtual string parseConfig(int);
 		//friend ostream& operator<<(ostream&, const int&);
 };

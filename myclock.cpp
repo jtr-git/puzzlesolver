@@ -20,7 +20,7 @@ vector<int> MyClock::next(int current)
 	return nextVector;
 }
 
-int MyClock::getInitial()
+int MyClock::getInitial() const
 {
 	return initial;
 }

@@ -11,16 +11,13 @@ template<class Config>
 class Puzzle
 { 
 	public: 
-		Config initial;
-		Config goal;
-		Config current;
+		const Config initial;
+		const Config goal;
 
-		Puzzle(Config initial, Config goal) : initial(initial), current(initial), goal(goal)
-	{}
-
+		Puzzle(Config initial, Config goal) : initial(initial), goal(goal) {}
 		virtual bool isGoal(Config) = 0;
 		virtual vector<Config> next(Config) = 0;
-		virtual Config getInitial() = 0;
+		virtual Config getInitial() const = 0;
 		virtual string parseConfig(Config) = 0;
 };
 
