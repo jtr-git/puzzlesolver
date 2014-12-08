@@ -91,6 +91,7 @@ vector<vector<int> > MyWater::next(vector<int> current)
 		nextConfig.clear();
 	}
 
+	return nextConfig;
 }
 
 vector<int> MyWater::getInitial() const

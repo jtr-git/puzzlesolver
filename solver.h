@@ -7,9 +7,9 @@ using namespace std;
 
 template<class Config,class Goal>
 class Solver
-{
-	const Config initial;
+{	
 	Puzzle<Config, Goal> * const puzzle;
+	const Config initial;
 	map<Config,Config> backReferer;
 	public :
 	Solver(Puzzle<Config, Goal> &puzzle): puzzle(&puzzle), initial(puzzle.getInitial())
