@@ -1,51 +1,63 @@
 #include<map>
 #include<vector>
+#include<deque>
 #include "puzzle.h"
 
 using namespace std;
 
-template<class Config>
+template<class Config,class Goal>
 class Solver
 {
-	//initial configuration
 	const Config initial;
-	//pointer to a puzzle
-	const Puzzle<Config> * const puzzle;
-	//solution structure
-	vector<vector<Config> > solution;
-	//internal data structure for solving
-	map<Config,vector<Config> > backReferer;
-	vector<Config> queue;
+	Puzzle<Config, Goal> * const puzzle;
+	map<Config,Config> backReferer;
 	public :
-	Solver(const Puzzle<Config> &puzzle): puzzle(&puzzle), initial(puzzle.getInitial())
+	Solver(Puzzle<Config, Goal> &puzzle): puzzle(&puzzle), initial(puzzle.getInitial())
 	{
 	}
 	void solve();
 	void print();
 };
 
-//function to solve a general puzzle
-	template<class Config>
-void Solver<Config>::solve()
+	template<class Config, class Goal>
+void Solver<Config, Goal>::solve()
 {
-
-	//traverse through the map and generate multiple solutions
-	for(typename map<Config, vector<Config> >::iterator iter = backReferer.begin(); iter!= backReferer.end(); ++iter)
+	vector<Config> nextConfigs;
+	deque<Config> myQueue;
+	myQueue.push_back(initial);
+	backReferer.insert(pair<Config,Config>(initial, initial));
+	//iterate the queue
+	for(typename deque<Config>::iterator iter = myQueue.begin(); iter!=myQueue.end() && !puzzle->isGoal(*iter); ++iter)
 	{
-		//for all vecto<Config> entries in backReferer, add them to different vectors in solution variable	
-		
+		//for every element in the queue, get next configurations
+		nextConfigs = puzzle->next(*iter);
+		//iterate next configurations
+		for(typename vector<Config>::iterator iter2 = nextConfigs.begin(); iter2!=nextConfigs.end(); ++iter2)
+		{
+			//if configuration has not been seen before
+			if(backReferer.find(*iter2)==backReferer.end())
+			{
+				//add to queue
+				myQueue.push_back(*iter2);
+				//add a reference from the config to previous
+				backReferer.insert(pair<Config,Config>(*iter2,*iter));
+				if(puzzle->isGoal(*iter2))
+					return;
+			}
+		}
+		myQueue.pop_front();
 	}
 }
 
-//function to print the solution
-	template<class Config>
-void Solver<Config>::print()
+	template<class Config, class Goal>
+void Solver<Config, Goal>::print()
 {
-	for(typename vector<vector<Config> >::iterator iter = solution.begin(); iter!=solution.end(); ++iter )
+	Config temp = backReferer.rbegin()->first;
+	while(temp!=puzzle->getInitial())
 	{
-		for(typename vector<Config>::iterator iter2 = iter->begin(); iter2!=iter->end();++iter2)
-		{
-			cout<<*iter2;
-		}
+		cout<<puzzle->parseConfig(temp)<<endl;
+		temp = backReferer[temp];
 	}
+	//print initial
+	cout<<puzzle->parseConfig(temp)<<endl;
 }
