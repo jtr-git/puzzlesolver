@@ -14,7 +14,15 @@ class Puzzle
 		const Config initial;
 		const Goal goal;
 		vector<Config> nextConfig;
-		Puzzle(Config initial, Goal goal) : initial(initial), goal(goal) {}
+		
+		//default constructor
+		Puzzle():initial(),goal(){};
+		//parameterized constructor 1
+		Puzzle(Goal goal) : initial(), goal(goal)
+		{}
+		//parameterized constructor 2
+		Puzzle(Config initial, Goal goal) : initial(initial), goal(goal)
+		{}
 		virtual bool isGoal(Config) const = 0;
 		virtual vector<Config> next(Config) = 0;
 		virtual Config getInitial() const = 0;

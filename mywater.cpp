@@ -4,7 +4,7 @@
 
 using namespace std;
 
-MyWater::MyWater(int goal, vector<int> initial): Puzzle(initial,goal)
+MyWater::MyWater(int goal, vector<int> initial): Puzzle(goal), capacity(initial)
 {
 }
 
@@ -23,21 +23,26 @@ bool MyWater::isGoal(vector<int> current) const
 vector<vector<int> > MyWater::next(vector<int> current)
 {	
 	vector<int> temp = current;
-	if(!isGoal(current))
+	if(!isGoal(temp))
 	{
 		//generate next possible configurations
 
 		vector<int>::const_iterator cap = initial.begin();		
-		for(vector<int>::iterator cur = current.begin();cap!=initial.end(), cur!=current.end(); ++cap, ++cur)
+		for(vector<int>::iterator cur = temp.begin();cap!=initial.end(), cur!=temp.end(); ++cap, ++cur)
 		{
-			vector<int>::const_iterator cap2 = cap;
-			vector<int>::iterator cur2 = cur;
+			vector<int>::const_iterator cap2 = initial.begin();
+			vector<int>::iterator cur2 = temp.begin();
 
 			//pouring from one jug to another
-			for(;cap2=initial.end(),cur2!=current.end();++cap2,++cur2)
+			for(;cap2=initial.end(),cur2!=temp.end();++cap2,++cur2)
 			{
 				//first jug to second
-				if(*cur2 + *cur > *cap2)
+				if((*cur2 + * cur)  == *cap2)
+				{
+					*cur = 0;
+					*cur2 = *cap2;
+				}
+				else if(*cur2 + *cur > *cap2)
 				{
 					//partial fill
 					*cur = *cur - (*cap2 - *cur2);
@@ -56,7 +61,12 @@ vector<vector<int> > MyWater::next(vector<int> current)
 				}
 
 				//second jug to first
-				if(*cur + *cur2 > *cap)
+				if((*cur + *cur2) == *cap)
+				{
+					*cur = *cap;
+					*cur2 = 0;
+				}
+				else if(*cur + *cur2 > *cap)
 				{
 					//partial fill
 					*cur2 = *cur2 - (*cap - *cur);

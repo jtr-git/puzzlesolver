@@ -8,15 +8,6 @@
 
 using namespace std;
 
-class Jug
-{
-	int max_cap;
-	int current;	
-	public:
-	Jug(int max_cap) : max_cap(max_cap), current(0)
-	{}
-};
-
 class MyWater : public Puzzle<vector<int>,int >
 {
 	const vector<int> capacity;
