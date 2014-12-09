@@ -6,8 +6,6 @@ using namespace std;
 
 MyWater::MyWater(int goal, vector<int> initial): Puzzle(initial,goal)
 {
-	for(vector<int>::iterator iter = initial.begin(); iter!=initial.end(); ++iter)
-		capacity.push_back(*iter);
 }
 
 bool MyWater::isGoal(vector<int> current) const
@@ -24,65 +22,67 @@ bool MyWater::isGoal(vector<int> current) const
 
 vector<vector<int> > MyWater::next(vector<int> current)
 {	
-	bool reached = isGoal(current);
-	vector<int> original = current;
-	if(!reached)
+	vector<int> temp = current;
+	if(!isGoal(current))
 	{
 		//generate next possible configurations
-		 
-		
-		for(vector<int>::iterator cap = capacity.begin(), cur = current.begin();cap!=capacity.end(), cur!=current.begin(); ++cap, ++cur)
-		{
-			vector<int>::iterator cap2 = cap;
-			++cap2;
-			vector<int>::iterator cur2 = cur;
-			++cur;
 
-			for(;cap2=capacity.end(),cur2!=current.end();++cap2,++cur2)
+		vector<int>::const_iterator cap = initial.begin();		
+		for(vector<int>::iterator cur = current.begin();cap!=initial.end(), cur!=current.end(); ++cap, ++cur)
+		{
+			vector<int>::const_iterator cap2 = cap;
+			vector<int>::iterator cur2 = cur;
+
+			//pouring from one jug to another
+			for(;cap2=initial.end(),cur2!=current.end();++cap2,++cur2)
 			{
-				if(*cap2>(*cap))
+				//first jug to second
+				if(*cur2 + *cur > *cap2)
 				{
-					if(*cur2 + *cur > *cap2)
-					{
-						*cur = *cap2 - *cur2;
-						*cur2 = *cap2;
-						nextConfig.push_back(current);
-						current = original;
-					}
-					else
-					{
-						*cur2 = *cur2 + *cur;
-						*cur = 0;
-						nextConfig.push_back(current);
-						current = original;
-					}
+					//partial fill
+					*cur = *cur - (*cap2 - *cur2);
+					*cur2 = *cap2;
+					nextConfig.push_back(temp);
+					temp = current;
 				}
 				else
 				{
-					if(*cur + *cur2 > *cap)
-					{
-						*cur2 = *cap - *cur;
-						*cur = *cap;
-					}
-					else
-					{
-						*cur = *cur + *cur2;
-						*cur2 = 0;
-						nextConfig.push_back(current);
-						current = original;
-					}
+					//full transfer
+					*cur2 = *cur2 + *cur;
+					*cur = 0;
+					nextConfig.push_back(temp);
+					temp = current;
+
+				}
+
+				//second jug to first
+				if(*cur + *cur2 > *cap)
+				{
+					//partial fill
+					*cur2 = *cur2 - (*cap - *cur);
+					*cur = *cap;
+					nextConfig.push_back(temp);
+					temp = current;
+				}
+				else
+				{
+					//full transfer
+					*cur = *cur + *cur2;
+					*cur2 = 0;
+					nextConfig.push_back(temp);
+					temp = current;
 				}
 			}
 
 			//empty jug
 			*cur = 0;
-			nextConfig.push_back(current);
-			current = original;
+			nextConfig.push_back(temp);
+			temp = current;
 
 			//fill jug
 			*cur = *cap;
-			nextConfig.push_back(current);
-			current = original;
+			nextConfig.push_back(temp);
+			temp = current;
 		}
 	}
 
@@ -99,12 +99,13 @@ vector<int> MyWater::getInitial() const
 	return initial;
 }
 
-string MyWater::parseConfig(vector<int> config) const
+string MyWater::parseConfig(vector<int> current) const
 {
 	stringstream stream;
-	for(vector<int>::iterator iter = config.begin(); iter!=config.end(); ++iter)
+	vector<int>::const_iterator cap = initial.begin();
+	for(vector<int>::iterator iter = current.begin(); iter!=current.end(), cap!=initial.end(); ++iter, ++cap)
 	{
-		stream<<*iter<<",";
+		stream<<*cap<<"("<<*iter<<"), ";
 	}
 	return stream.str();
 }

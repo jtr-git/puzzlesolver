@@ -19,7 +19,7 @@ class Jug
 
 class MyWater : public Puzzle<vector<int>,int >
 {
-	vector<int> capacity;
+	const vector<int> capacity;
 	public:
 		MyWater(int goal, vector<int> initial);
 		virtual bool isGoal(vector<int>) const;
