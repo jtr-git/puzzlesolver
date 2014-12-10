@@ -16,7 +16,7 @@ class MyWater : public Puzzle<vector<int>,int >
 		virtual bool isGoal(vector<int>) const;
 		virtual vector<vector<int> > next(vector<int>);
 		virtual vector<int> getInitial() const;
-		virtual string parseConfig(vector<int>) const;
+		virtual string print(const vector<int> &) const;
 };
 
 #endif

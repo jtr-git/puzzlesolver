@@ -13,7 +13,7 @@ class MyClock : public Puzzle<int, int>
 		virtual bool isGoal(int) const;
 		virtual vector<int> next(int);
 		virtual int getInitial() const;
-		virtual string parseConfig(int) const;
+		virtual string print(const int &) const;
 };
 
 #endif

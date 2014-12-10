@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string>
 #include<sstream>
 #include "myclock.h"
 using namespace std;
@@ -28,9 +29,9 @@ int MyClock::getInitial() const
 	return initial;
 }
 
-string MyClock::parseConfig(int config) const
+string MyClock::print(const int& a) const
 {
-	stringstream stream;
-	stream<<config;
-	return stream.str();
+	stringstream s;
+	s<<a;
+	return s.str();
 }

@@ -16,16 +16,19 @@ class Solver
 	{
 	}
 	void solve();
-	void print();
+	void print(Config, bool);
 };
 
 	template<class Config, class Goal>
 void Solver<Config, Goal>::solve()
 {
+	Config goalConfig;
+	bool solvable = false;
 	vector<Config> nextConfigs;
 	deque<Config> myQueue;
 	myQueue.push_back(initial);
 	backReferer.insert(pair<Config,Config>(initial, initial));
+
 	//iterate the queue
 	for(typename deque<Config>::iterator iter = myQueue.begin(); iter!=myQueue.end() && !puzzle->isGoal(*iter); ++iter)
 	{
@@ -34,30 +37,52 @@ void Solver<Config, Goal>::solve()
 		//iterate next configurations
 		for(typename vector<Config>::iterator iter2 = nextConfigs.begin(); iter2!=nextConfigs.end(); ++iter2)
 		{
-			//if configuration has not been seen before
-			if(backReferer.find(*iter2)==backReferer.end())
+			//if goal found
+			if(puzzle->isGoal(*iter2))
+			{
+				solvable=true;
+				goalConfig = *iter2;
+				backReferer.insert(pair<Config,Config>(*iter2, *iter));
+				print(goalConfig, solvable);
+				return;
+			}
+
+			//if configuration has not been seen before and is not goal
+			else if(backReferer.find(*iter2)==backReferer.end())
 			{
 				//add to queue
 				myQueue.push_back(*iter2);
 				//add a reference from the config to previous
 				backReferer.insert(pair<Config,Config>(*iter2,*iter));
-				if(puzzle->isGoal(*iter2))
-					return;
+			}
+			else
+			{
+				//skip adding
 			}
 		}
 		myQueue.pop_front();
 	}
+
 }
 
 	template<class Config, class Goal>
-void Solver<Config, Goal>::print()
+void Solver<Config, Goal>::print(Config goalConfig, bool solvable)
 {
-	Config temp = backReferer.rbegin()->first;
-	while(temp!=puzzle->getInitial())
+	if(!solvable)
 	{
-		cout<<puzzle->parseConfig(temp)<<endl;
-		temp = backReferer[temp];
+		cout<<"No solution";
+		return;
 	}
-	//print initial
-	cout<<puzzle->parseConfig(temp)<<endl;
+	else
+	{
+		cout<<"Solution:"<<endl;
+		Config temp = goalConfig;
+		while(temp!=puzzle->getInitial())
+		{
+			cout<<puzzle->print(temp)<<endl;
+			temp = backReferer[temp];
+		}
+		//print initial
+		cout<<puzzle->print(temp)<<endl;
+	}
 }

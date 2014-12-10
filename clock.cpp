@@ -18,9 +18,5 @@ int main(int argc, char ** argv)
 	//call the solve function to get a solution
 	cout<<"Solving"<<endl;
 	solver.solve();
-	//print solution
-	cout<<"Printing Solution"<<endl;
-	solver.print();
-	
 	return 0;
 }

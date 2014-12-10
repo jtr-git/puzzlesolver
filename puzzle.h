@@ -11,7 +11,7 @@ template<class Config, class Goal>
 class Puzzle
 { 
 	public: 
-		const Config initial;
+		Config initial;
 		const Goal goal;
 		vector<Config> nextConfig;
 		
@@ -26,7 +26,7 @@ class Puzzle
 		virtual bool isGoal(Config) const = 0;
 		virtual vector<Config> next(Config) = 0;
 		virtual Config getInitial() const = 0;
-		virtual string parseConfig(Config) const= 0;
+		virtual string print(const Config&) const = 0;
 };
 
 #endif
