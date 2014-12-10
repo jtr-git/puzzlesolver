@@ -20,9 +20,16 @@ bool MyLloyd::isGoal(vector<vector<int> > current) const
 		return false;
 	}
 }
-vector<vector<vector<int> > > MyLloyd::next(vector<vector<int> > current)
+vector<vector<vector<int> > > MyLloyd::next(vector<vector<int> > matrix)
 {	
 	vector<vector<vector<int> > > nextConfigList;
+
+	for(vector<vector<int> >::const_iterator row = matrix.begin(); row!=matrix.end(); ++row)
+	{
+		for(vector<int>::const_iterator col = row->begin(); col!=row->end(); ++col)
+		//TODO - get next configs	
+	}
+
 	return nextConfigList;
 }
 
