@@ -15,12 +15,12 @@ class Solver
 	Solver(Puzzle<Config, Goal> &puzzle): puzzle(&puzzle), initial(puzzle.getInitial())
 	{
 	}
-	void solve();
-	void print(Config, bool);
+	string solve();
+	string print(Config, bool);
 };
 
 	template<class Config, class Goal>
-void Solver<Config, Goal>::solve()
+string Solver<Config, Goal>::solve()
 {
 	Config goalConfig;
 	bool solvable = false;
@@ -43,8 +43,7 @@ void Solver<Config, Goal>::solve()
 				solvable=true;
 				goalConfig = *iter2;
 				backReferer.insert(pair<Config,Config>(*iter2, *iter));
-				print(goalConfig, solvable);
-				return;
+				return print(goalConfig, solvable);
 			}
 
 			//if configuration has not been seen before and is not goal
@@ -62,27 +61,29 @@ void Solver<Config, Goal>::solve()
 		}
 		myQueue.pop_front();
 	}
-
+	return "Error : undefined behavior";
 }
 
 	template<class Config, class Goal>
-void Solver<Config, Goal>::print(Config goalConfig, bool solvable)
+string Solver<Config, Goal>::print(Config goalConfig, bool solvable)
 {
+	string output;
 	if(!solvable)
 	{
-		cout<<"No solution";
-		return;
+		output = "No solution";
+		return output;
 	}
 	else
 	{
-		cout<<"Solution:"<<endl;
+		output = "Solution : \n";
 		Config temp = goalConfig;
 		while(temp!=puzzle->getInitial())
 		{
-			cout<<puzzle->print(temp)<<endl;
+			output = output + puzzle->print(temp) + "\n";
 			temp = backReferer[temp];
 		}
 		//print initial
-		cout<<puzzle->print(temp)<<endl;
+		output = output + puzzle->print(temp) + "\n";
 	}
+	return output;
 }

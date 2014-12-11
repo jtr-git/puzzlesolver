@@ -24,6 +24,6 @@ int main(int argc, char ** argv)
 	Solver<vector<int>, int> solver(water);
 	//call the solve function to get a solution
 	cout<<"Solving water puzzle"<<endl;
-	solver.solve();
+	cout<<solver.solve()<<endl;
 	return 0;
 }

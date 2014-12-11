@@ -1,0 +1,60 @@
+Project design details
+
+SOLVER DESIGN
+-------------
+
+The solver uses stl queue to keep storing the next configurations as we traverse the problem space till we hit the first
+first member of the goal and stores the reverse output in an stl map whose key is a configuration and value is the previous
+configuration. This provides a back-reference and using that we can get the reverse path from the goal to the initial in
+essence the solution.
+
+FILES
+-----
+
+1. Clock puzzle
+
+puzzle.h - 	abstract templated class that provides a general implementation for a puzzle
+			that can be handled by an independent solver
+			
+solver.h - 	the general class that takes two templated arguments goal and initial and a puzzle object
+			in its constructor. This class implements the breadth first search algorithm on each level
+			of the tree of possibilites in the configurations. Scanning the configurations we reach
+			at a goal with a path that is shortest(even if there are multiple goal scenarios possible).
+
+myclock.h - header file for class representing the clock puzzle
+
+myclock.cpp - implementations of functions in myclock.h
+
+clock.cpp - file with main function
+
+clock - executable
+
+2. Water Puzle
+
+mywater.h - header file for class representing the water puzzle
+
+mywater.cpp - implementations of functions in water.h
+
+water.cpp - file with main function
+
+water - executable
+
+3. Sam-Lloyd's Puzzle
+
+mylloyd.h - header file for class representing the lloyd's puzzle
+
+mylloyd.cpp - implementations of functions in mylloyd.h
+
+lloyd.cpp - file with main function
+
+lloyd - executable
+
+4. Variant Clock Puzzle
+
+myvclock.h - header file for class representing the vclock puzzle
+
+myvclock.cpp - implementations of functions in myvclock.h
+
+vclock.cpp - file with main function
+
+vclock - executable

@@ -5,11 +5,11 @@
 
 using namespace std;
 
-MyLloyd::MyLloyd(vector<vector<int> > initial, vector<vector<int> > goal): Puzzle(initial,goal)
+MyLloyd::MyLloyd(vector<vector<string> > initial, vector<vector<string> > goal): Puzzle(initial,goal)
 {
 }
 
-bool MyLloyd::isGoal(vector<vector<int> > current) const
+bool MyLloyd::isGoal(vector<vector<string> > current) const
 {
 	if (equal(goal.begin(), goal.end(), current.begin()))
 	{
@@ -20,18 +20,18 @@ bool MyLloyd::isGoal(vector<vector<int> > current) const
 		return false;
 	}
 }
-vector<vector<vector<int> > > MyLloyd::next(const vector<vector<int> > current)
+vector<vector<vector<string> > > MyLloyd::next(const vector<vector<string> > current)
 {	
-	vector<vector<vector<int> > > nextConfigList;
+	vector<vector<vector<string> > > nextConfigList;
 
-	vector<vector<int> > matrix = current; 
-	int temp = -1;
-	vector<vector<int> >::iterator tempRow;
-	vector<int>::iterator tempCol;
-	for(vector<vector<int> >::iterator row = matrix.begin(); row!=matrix.end(); ++row)
+	vector<vector<string> > matrix = current; 
+	string temp;
+	vector<vector<string> >::iterator tempRow;
+	vector<string>::iterator tempCol;
+	for(vector<vector<string> >::iterator row = matrix.begin(); row!=matrix.end(); ++row)
 	{
-		for(vector<int>::iterator col = row->begin(); col!=row->end(); ++col)
-			if(*col==0)
+		for(vector<string>::iterator col = row->begin(); col!=row->end(); ++col)
+			if(*col==".")
 			{
 				//move right
 				if((col+1) != row->end())
@@ -42,7 +42,6 @@ vector<vector<vector<int> > > MyLloyd::next(const vector<vector<int> > current)
 					*col = temp;	
 					nextConfigList.push_back(matrix);
 					matrix = current;
-					temp = -1;
 				}
 				//move left
 				if(col != row->begin())
@@ -53,7 +52,6 @@ vector<vector<vector<int> > > MyLloyd::next(const vector<vector<int> > current)
 					*col = temp;
 					nextConfigList.push_back(matrix);
 					matrix = current;
-					temp = -1;
 				}
 				//move down
 				if((row+1)!=matrix.end())
@@ -65,7 +63,6 @@ vector<vector<vector<int> > > MyLloyd::next(const vector<vector<int> > current)
 					*tempCol = temp;
 					nextConfigList.push_back(matrix);
 					matrix = current;
-					temp = -1;
 				}
 				//move up
 				if(row!=matrix.begin())
@@ -77,9 +74,6 @@ vector<vector<vector<int> > > MyLloyd::next(const vector<vector<int> > current)
 					*tempCol = temp;
 					nextConfigList.push_back(matrix);
 					matrix = current;
-
-					temp = -1;
-
 				}
 			}
 	}
@@ -87,17 +81,17 @@ vector<vector<vector<int> > > MyLloyd::next(const vector<vector<int> > current)
 	return nextConfigList;
 }
 
-vector<vector<int> > MyLloyd::getInitial() const
+vector<vector<string> > MyLloyd::getInitial() const
 {
 	return initial;
 }
 
-string MyLloyd::print(const vector<vector<int> > &matrix) const
+string MyLloyd::print(const vector<vector<string> > &matrix) const
 {
 	stringstream stream;
-	for(vector<vector<int> >::const_iterator row = matrix.begin(); row!=matrix.end(); ++row)
+	for(vector<vector<string> >::const_iterator row = matrix.begin(); row!=matrix.end(); ++row)
 	{
-		for(vector<int>::const_iterator col = row->begin(); col!=row->end(); ++col) 
+		for(vector<string>::const_iterator col = row->begin(); col!=row->end(); ++col) 
 			stream<<*col<<",";
 		stream<<endl;
 	}

@@ -8,14 +8,14 @@
 
 using namespace std;
 
-class MyLloyd : public Puzzle<vector<vector<int> >, vector<vector<int> > >
+class MyLloyd : public Puzzle<vector<vector<string> >, vector<vector<string> > >
 {
 	public:
-		MyLloyd(vector<vector<int> >, vector<vector<int> >);	
-		virtual bool isGoal(vector<vector<int> >) const;
-		virtual vector<vector<vector<int> > > next(vector<vector<int> >);
-		virtual vector<vector<int> > getInitial() const;
-		string print(const vector<vector<int> >&) const;
+		MyLloyd(vector<vector<string> >, vector<vector<string> >);	
+		virtual bool isGoal(vector<vector<string> >) const;
+		virtual vector<vector<vector<string> > > next(vector<vector<string> >);
+		virtual vector<vector<string> > getInitial() const;
+		string print(const vector<vector<string> >&) const;
 };
 
 #endif

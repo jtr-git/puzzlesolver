@@ -17,6 +17,6 @@ int main(int argc, char ** argv)
 	Solver<int, int> solver(clock);
 	//call the solve function to get a solution
 	cout<<"Solving"<<endl;
-	solver.solve();
+	cout<<solver.solve()<<endl;
 	return 0;
 }
